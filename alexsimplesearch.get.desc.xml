@@ -1,0 +1,10 @@
+<webscript>
+  <shortname>The Simplest Search Webscript</shortname>
+  <description>Test search</description>
+  <url>/demo/simplesearch</url>
+  <!-- authentication>none</authentication -->
+  <authentication>user</authentication>
+  <format default=''>argument</format>
+  <format default="json">extension</format>
+  <family>Alfresco Java-Backed Search WebScripts Demo</family>
+</webscript>

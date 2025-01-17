@@ -1,0 +1,1 @@
+# alfresco_search_webscript

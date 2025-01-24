@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.StoreRef;
 import java.util.List;
+import java.util.ArrayList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.alfresco.service.cmr.search.SearchService;
@@ -43,11 +44,14 @@ public class SimpleSearchWebScript extends AbstractWebScript
 		int pageNumber = 0;
 
 		List<NodeRef> nodesList = null;
-		nodesList = findNodes(pageNumber, USER_SEARCH_QUERY);
-		LOGGER.debug(nodesList);
-
+		List<NodeRef> nodesFull = new ArrayList<>();
+		while ((nodesList = findNodes(pageNumber, USER_SEARCH_QUERY)) != null) {
+		    nodesFull.addAll(nodesList);
+		    pageNumber++;
+		}
 		// see https://www.baeldung.com/java-converting-list-to-json-array
-		JSONArray jsonArray = new JSONArray(nodesList);
+		LOGGER.debug("nodesFull size: "+nodesFull.size());
+		JSONArray jsonArray = new JSONArray(nodesFull);
 		
 		// build a json object
 		// JSONObject obj = new JSONObject();
@@ -90,6 +94,7 @@ public class SimpleSearchWebScript extends AbstractWebScript
           results = searchService.query(sp);
           if (null != results && results.length() > 0) {
             nodesList = results.getNodeRefs();
+	    LOGGER.debug("resultlength: "+results.length());
           }
         } catch (Exception e) {
             LOGGER.error("Fail to find nodes ", e);
